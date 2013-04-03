@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 
+LANG=C
+LC_ALL=C
+
 # configure service
 if [ "$1" = configure ]; then
-    stop dropbox || true
+    stop dropbox &>/dev/null || true
     plat=$(uname -m)
     if [[ $plat != x86_64 ]] ; then
         plat=x86
@@ -25,3 +28,14 @@ if [ "$1" = configure ]; then
 fi
 
 start dropbox
+
+# waiting for dropbox to sync everything
+sleep 10
+# disable lan sync (broadcasts)
+sudo -u dropbox -i dropbox lansync n
+echo -n "Waiting for dropbox sync: "
+while sudo -u dropbox -i dropbox filestatus Dropbox | grep -v "up to date" ; do
+        sleep 5
+        echo -n "."
+done
+echo " OK"

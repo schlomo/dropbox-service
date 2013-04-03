@@ -1,5 +1,5 @@
 Package: dropbox-service
-Version: 2
+Version: 3
 Priority: optional
 Section: misc
 Architecture: all
