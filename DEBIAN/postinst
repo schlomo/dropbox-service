@@ -34,7 +34,7 @@ sleep 10
 # disable lan sync (broadcasts)
 sudo -u dropbox -i dropbox lansync n
 echo -n "Waiting for dropbox sync: "
-while sudo -u dropbox -i dropbox filestatus Dropbox | grep -v "up to date" ; do
+while sudo -u dropbox -i dropbox filestatus Dropbox | grep -qv "up to date" ; do
         sleep 5
         echo -n "."
 done
