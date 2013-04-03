@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+stop dropbox || true
+id dropbox || useradd -c DropBoxService -m -r -U -p \* dropbox

@@ -1,0 +1,13 @@
+Package: dropbox-service
+Version: 2
+Priority: optional
+Section: misc
+Architecture: all
+Maintainer: Schlomo Schapiro <schlomo+packaging@schapiro.org>
+Depends: python, wget
+Description: Install dropbox as a service
+ Create a dropbox user to run dropbox as a service. The directory
+ /home/dropbox/Dropbox will be synchronized. Associates system
+ with Dropbox during package installation (via link).
+ .
+ Dropbox will be downloaded during package installation.

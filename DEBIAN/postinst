@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+# configure service
+if [ "$1" = configure ]; then
+    stop dropbox || true
+    plat=$(uname -m)
+    if [[ $plat != x86_64 ]] ; then
+        plat=x86
+    fi
+    rm -Rf ~dropbox/.dropbox-dist
+    wget -qO - "https://www.dropbox.com/download?plat=lnx.$plat" | sudo -i -u dropbox tar -xzf -
+    wget -qO /usr/bin/dropbox 'https://www.dropbox.com/download?dl=packages/dropbox.py'
+    chmod +x /usr/bin/dropbox
+    echo -e "********\n\nStarting DropBox first time, will wait 60 seconds for Dropbox folder\n"
+    sudo -u dropbox -i .dropbox-dist/dropboxd &
+    s=SECONDS
+    while [[ ! -d ~dropbox/Dropbox ]] && ((SECONDS<s+60)) ; do sleep 1 ; done
+    sleep 5 # give dropboxd some more time before we kill it
+    kill $!
+    if [[ ! -d ~dropbox/Dropbox ]] ; then
+        echo -e "\nWARNING: Dropbox Link failed, no Dropbox folder found\n"
+    fi
+    echo -e "\n\n Run dpkg-reconfigure dropbox-service to update the dropbox binaries\n"
+fi
+
+start dropbox

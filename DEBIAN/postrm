@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+if [[ "$1" = purge ]] ; then
+    userdel -rf dropbox || echo 1>&2 "ERROR: Could not remove dropbox user and home dir"
+    groupdel dropbox || echo 1>&2 "ERROR: Could not remove dropbox group"
+    rm -f /usr/bin/dropbox || echo 1>&2 "ERROR: Could not remove /usr/bin/dropbox"
+fi
