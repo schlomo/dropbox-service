@@ -3,8 +3,8 @@ DPKG_OPTS=-b
 .PHONY: info repo deb
 
 info: deb
-	dpkg-deb -I out/*.deb
-	dpkg-deb -c out/*.deb
+	dpkg-deb -I out/*_all.deb
+	dpkg-deb -c out/*_all.deb
 
 deb:	clean
 	rm -Rf build
@@ -17,10 +17,11 @@ deb:	clean
 	chmod -R g-w build
 	fakeroot ${DPKG} ${DPKG_OPTS} build out
 	rm -Rf build
-	lintian -i out/*.deb
+	lintian -i out/*_all.deb
+	cp out/*_all.deb out/dropbox-service-latest.deb
 
 repo: deb
-	../putinrepo.sh out/*.deb
+	../putinrepo.sh out/*_all.deb
 
 clean:
 	rm -fr out build
