@@ -20,7 +20,7 @@ if [ "$1" = configure ]; then
     s=SECONDS
     while [[ ! -d ~dropbox/Dropbox ]] && ((SECONDS<s+60)) ; do sleep 1 ; done
     sleep 5 # give dropboxd some more time before we kill it
-    kill $!
+    kill $! &>/dev/null
     if [[ ! -d ~dropbox/Dropbox ]] ; then
         echo -e "\nWARNING: Dropbox Link failed, no Dropbox folder found\n"
     fi

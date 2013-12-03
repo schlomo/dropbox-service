@@ -19,6 +19,7 @@ deb:	clean
 	rm -Rf build
 	lintian -i out/*_all.deb
 	cp out/*_all.deb out/dropbox-service-latest.deb
+	git add -A
 
 repo: deb
 	../putinrepo.sh out/*_all.deb
